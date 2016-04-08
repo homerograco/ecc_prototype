@@ -1,0 +1,54 @@
+<!DOCTYPE html >
+<html lang="en" 
+      ng-app="foo" >
+<head >
+	<title >Frontend</title >
+	<link href="./bower_components/bootstrap/dist/css/bootstrap.min.css"
+	      rel="stylesheet" >
+	<link href="./bower_components/bootstrap-additions/dist/bootstrap-additions.min.css"
+	      rel="stylesheet" >
+	<link href="./bower_components/font-awesome/css/font-awesome.min.css"
+	      rel="stylesheet" >
+	<link href="main.css"
+	      rel="stylesheet" >
+</head >
+
+<body >
+
+    <div ng-controller="myController">
+        
+        <div class="form-group" >
+            <label for="codeQuestion" class="form-label col-sm-3" >Code of the Question</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="codeQuestion"  
+                       ng-model="myData.currentItem.code_question" 
+                       >
+            </div>
+            
+            
+        </div>
+        <button ng-click="save()">Save</button>
+        
+        <table class="table table-striped">
+            
+            <tr ng-repeat="d in myData.list" ng-click="myData.currentItem = d">
+                <td>{{ d.id }}</td>
+                <td>{{ d.code_question }}</td>
+                <td>{{ d.textQuestionResult }}</td>
+            </tr>
+        </table>
+        
+        <pre>
+            {{ myData.currentItem | json }}
+        </pre>
+        <button ng-click="say()">say</button>
+    </div>
+    
+    
+<script src="./bower_components/angular/angular.min.js" ></script >
+<script src="./bower_components/angular-resource/angular-resource.min.js" ></script>
+<!-- script src="./bower_components/angular-ui/build/angular-ui.min.js" ></script -->
+<!--script src="./bower_components/ui-router/release/angular-ui-router.min.js" ></script -->
+<script src="./main.js" ></script >
+</body >
+</html >

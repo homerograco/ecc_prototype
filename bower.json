@@ -1,0 +1,27 @@
+{
+  "name": "frontend",
+  "authors": [
+    "Homero Graco <homero.graco@gmail.com>"
+  ],
+  "description": "Angular JS testing",
+  "main": "index.html",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.5.3",
+    "angular-ui": "~0.4.0",
+    "angular-ui-router": "~0.2.18",
+    "bootstrap": "~3.3.6",
+    "bootstrap-additions": "~0.3.1",
+    "font-awesome": "Font-Awesome#~4.5.0",
+    "angular-resource": "~1.5.3"
+  }
+}
