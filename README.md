@@ -1,1 +1,1 @@
-ECC Prototype
+ECC Prototype - Frontend
