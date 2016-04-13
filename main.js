@@ -1,23 +1,46 @@
-var app = angular.module('foo', ['ngResource']);
-//alert("test");
+var app = angular.module('classificator', ['ngResource']);
 
+// APP CONFIGURATION
 app.config(function($resourceProvider) {
     $resourceProvider.defaults.stripTrailingSlashes = false;
 });
+
+
+// APP CONTROLLERS
 
 app.controller('myController', function(myService, $scope) {
     $scope.myData = myService;
     $scope.myData.loadItems();
     
-    $scope.save = function(){
-        myService.saveItem(); 
+    $scope.save = function() {
+        $scope.myData.saveItem();  
+    };
+    
+    $scope.clear = function() {
+        $scope.myData.clearItem();
+    };
+    
+    $scope.create = function() {
+        $scope.myData.createItem($scope.myData.currentItem);
+    };
+    
+});
+
+app.controller('q_a_controller', function(q_a_service, $scope) {
+    $scope.data = q_a_service;
+    $scope.data.load_items();
+    
+    $scope.update = function() {
+        $scope.data.update_items();
     };
 });
+
+// APP SERVICES
 
 app.service('myService', function (dataResource) {
     var self = {
         'list': [],
-        'currentItem': {},
+        'currentItem': null,
         'loadItems': function() {
             dataResource.get(function (response) {
                 angular.forEach(response.results, function(item) {
@@ -28,15 +51,52 @@ app.service('myService', function (dataResource) {
         },
         'saveItem': function() {
             self.currentItem.$update();
-            }
+            },
+        'clearItem': function() {
+            self.currentItem = null;
+        },
+        'createItem': function(data) {
+            self.currentItem.save(data);
+        }
         };
     return self;
     }
 );
 
+app.service('q_a_service', function(q_a_resource) {
+    var self = {
+        'list': [],
+        'current_item': null,
+        'load_items': function() {
+            q_a_resource.get(function(response) {
+               angular.forEach(response.results, function(item) {
+                   console.log(item);
+                   self.list.push(new q_a_resource(item));
+               });
+            });
+        },
+        'update_items': function() {
+            self.current_item.$update();
+        }
+    };
+    
+    return self;
+});
+
+// APP FACTORIES
+
 app.factory('dataResource', function ($resource) {
 
-    return $resource("http://localhost/slim_app_2/slim_app_2/public/all/:id", {id: "@id"},
+    return $resource("http://localhost/backend/public/all/:id", {id: "@id"},
+    {
+        update: {
+            method: "PUT"
+        }
+    });
+});
+
+app.factory('q_a_resource', function ($resource) {
+    return $resource("http://localhost/backend/public//questions_answers/:code", {code: "@code"},
     {
         update: {
             method: "PUT"
