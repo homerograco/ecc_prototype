@@ -15,7 +15,7 @@
 
 <body >
 
-    <div ng-controller="myController">
+    <div ng-controller="q_a_controller">
         
         <div class="row">
             <div class="col-md-12">
@@ -39,14 +39,16 @@
         <div class="col-md-6">
             <table class="table table-striped table-bordered table-hover">
                 <tr>
-                    <th>ID</th>
-                    <th>Question Code</th>
-                    <th>Text of resulting question</th>
+                    <th>Question code</th>
+                    <th>Question text</th>
+                    <th>Code of next question</th>
+                    <th>Answer text</th>
                 </tr>
-                <tr ng-repeat="d in myData.list" ng-click="myData.currentItem = d">
-                    <td>{{ d.id }}</td>
+                <tr ng-repeat="d in q_a_data.list" ng-click="q_a_data.current_item = d">
                     <td>{{ d.code_question }}</td>
-                    <td>{{ d.text_question_result }}</td>
+                    <td>{{ d.question }}</td>
+                    <td>{{ d.code_next }}</td>
+                    <td>{{ d.answer }}</td>
                 </tr>
             </table>
         </div>
@@ -65,7 +67,7 @@
                                     ng-click="clear()">Clear Selection</button>
                             <button type="submit" 
                                     class="btn btn-default btn-primary" 
-                                    ng-click="save()">Save Changes</button>
+                                    ng-click="update()">Save Changes</button>
                             <button type="submit" 
                                     class="btn btn-default btn-danger" 
                                     ng-click="remove()">Remove from Database</button>
@@ -80,113 +82,33 @@
                 <input type="text" 
                        class="form-control" 
                        id="code_question" 
-                       ng-model="myData.currentItem.code_question">
+                       ng-model="q_a_data.current_item.code_question">
               </div>
 
               <div class="form-group">
-                <label for="text_question_result">Text of Resulting Question</label>
+                <label for="question">Question text</label>
                 <input type="text" 
                        class="form-control" 
-                       id="text_question_result" 
-                       ng-model="myData.currentItem.text_question_result">
+                       id="question" 
+                       ng-model="q_a_data.current_item.question">
               </div>
                 
               <div class="form-group">
-                <label for="code_answer_1">Code of first answer</label>
+                <label for="code_next">Code of next question</label>
                 <input type="text" 
                        class="form-control" 
-                       id="code_answer_1" 
-                       ng-model="myData.currentItem.code_answer_1">
+                       id="code_next" 
+                       ng-model="q_a_data.current_item.code_next">
               </div>
                 
               <div class="form-group">
-                <label for="text_answer_1">Text of first answer</label>
+                <label for="answer">Answer text</label>
                 <input type="text" 
                        class="form-control" 
-                       id="text_answer_1" 
-                       ng-model="myData.currentItem.text_answer_1">
+                       id="answer" 
+                       ng-model="q_a_data.current_item.answer">
               </div>
-                
-                <div class="form-group">
-                <label for="code_answer_2">Code of second answer</label>
-                <input type="text" 
-                       class="form-control" 
-                       id="code_answer_2" 
-                       ng-model="myData.currentItem.code_answer_2">
-              </div>
-                
-              <div class="form-group">
-                <label for="text_answer_2">Text of second answer</label>
-                <input type="text" 
-                       class="form-control" 
-                       id="text_answer_2" 
-                       ng-model="myData.currentItem.text_answer_2">
-              </div>
-                
-                <div class="form-group">
-                <label for="code_answer_3">Code of third answer</label>
-                <input type="text" 
-                       class="form-control" 
-                       id="code_answer_3" 
-                       ng-model="myData.currentItem.code_answer_3">
-              </div>
-                
-              <div class="form-group">
-                <label for="text_answer_3">Text of third answer</label>
-                <input type="text" 
-                       class="form-control" 
-                       id="text_answer_3" 
-                       ng-model="myData.currentItem.text_answer_3">
-              </div>
-                
-                <div class="form-group">
-                <label for="code_answer_4">Code of fourth answer</label>
-                <input type="text" 
-                       class="form-control" 
-                       id="code_answer_4" 
-                       ng-model="myData.currentItem.code_answer_4">
-              </div>
-                
-              <div class="form-group">
-                <label for="text_answer_4">Text of fourth answer</label>
-                <input type="text" 
-                       class="form-control" 
-                       id="text_answer_4" 
-                       ng-model="myData.currentItem.text_answer_4">
-              </div>
-                
-                <div class="form-group">
-                <label for="code_answer_5">Code of fifth answer</label>
-                <input type="text" 
-                       class="form-control" 
-                       id="code_answer_5" 
-                       ng-model="myData.currentItem.code_answer_5">
-              </div>
-                
-              <div class="form-group">
-                <label for="text_answer_5">Text of fifth answer</label>
-                <input type="text" 
-                       class="form-control" 
-                       id="text_answer_5" 
-                       ng-model="myData.currentItem.text_answer_5">
-              </div>
-                
-                <div class="form-group">
-                <label for="help_text">Helper text</label>
-                <input type="text" 
-                       class="form-control" 
-                       id="help_text" 
-                       ng-model="myData.currentItem.help_text">
-              </div>
-                
-              <div class="form-group">
-                <label for="comment">Comments</label>
-                <input type="text" 
-                       class="form-control" 
-                       id="comment" 
-                       ng-model="myData.currentItem.comment">
-              </div>
-
+             
             </form>
         </div>
     </div>

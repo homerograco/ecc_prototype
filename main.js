@@ -27,11 +27,15 @@ app.controller('myController', function(myService, $scope) {
 });
 
 app.controller('q_a_controller', function(q_a_service, $scope) {
-    $scope.data = q_a_service;
-    $scope.data.load_items();
+    $scope.q_a_data = q_a_service;
+    $scope.q_a_data.load_items();
     
     $scope.update = function() {
-        $scope.data.update_items();
+        $scope.q_a_data.update_items();
+    };
+    
+    $scope.clear = function() {
+        $scope.q_a_data.clear_items();
     };
 });
 
@@ -77,6 +81,9 @@ app.service('q_a_service', function(q_a_resource) {
         },
         'update_items': function() {
             self.current_item.$update();
+        },
+        'clear_items': function() {
+            self.current_item = null;
         }
     };
     
