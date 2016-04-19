@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<!-- Question details -->
+<div class="col-md-6 col-md-offset-3" >
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" 
+                   class="form-control" 
+                   id="id" 
+                   ng-model="question_data.current_item.id">
+        </div>
+
+        <div class="form-group">
+            <label for="code">Question code</label>
+            <input type="text" 
+                   class="form-control" 
+                   id="code" 
+                   ng-model="question_data.current_item.code">
+        </div>
+
+        <div class="form-group">
+            <label for="question">Question text</label>
+            <input type="text" 
+                   class="form-control" 
+                   id="question" 
+                   ng-model="question_data.current_item.question">
+        </div>
+
+        <div class="form-group">
+            <label for="help">Helper text</label>
+            <input type="text" 
+                   class="form-control" 
+                   id="help" 
+                   ng-model="question_data.current_item.help">
+        </div>
+
+        <div class="form-group">
+            <label for="comment">Comment</label>
+            <input type="text" 
+                   class="form-control" 
+                   id="comment" 
+                   ng-model="question_data.current_item.comment">
+        </div>
+
+        <button class="btn btn-sucess btn-group-justified"
+                type="submit"
+                ng-click="update_question()" >Save
+        </button >
+    </form>
+</div>
+
