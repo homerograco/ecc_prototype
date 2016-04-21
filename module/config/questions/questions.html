@@ -18,7 +18,7 @@
             <th>Helper text</th>
             <th>Comment</th>
         </tr>
-        <tr ng-repeat="question in question_data.list"
+        <tr ng-repeat="question in db_data.questions_list"
             ui-sref="edit_question({question_id:question.id})">
             <td>{{ question.id}}</td>
             <td>{{ question.code}}</td>

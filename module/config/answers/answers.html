@@ -1,16 +1,28 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<!DOCTYPE html >        
+<div class="col-md-2">
+    <div class="form-inline well well-sm">
+        <button type="submit"
+                class="btn btn-success btn-group-justified"
+                data-ui-sref="create_question" >
+            Create new entry
+        </button>
+    </div>
+</div>    
+
+<div class="col-md-12">
+    <table class="table table-striped table-bordered table-hover">
+        <tr>
+            <th>ID</th>
+            <th>Answer code</th>
+            <th>Next question code</th>
+            <th>Answer text</th>
+        </tr>
+        <tr ng-repeat="answer in db_data.answers_list"
+            ui-sref="edit_answer({answer_id:answer.id})">
+            <td>{{ answer.id}}</td>
+            <td>{{ answer.code}}</td>
+            <td>{{ answer.next}}</td>
+            <td>{{ answer.answer}}</td>
+        </tr>
+    </table>
+</div>

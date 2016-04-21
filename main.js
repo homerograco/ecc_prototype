@@ -16,22 +16,32 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             .state('questions', {
                 url: "/questions",
                 templateUrl: 'module/config/questions/questions.html',
-                controller: 'edit_questions_controller'
+                controller: 'edit_controller'
             })
             .state('answers', {
                 url: "/answers",
                 templateUrl: 'module/config/answers/answers.html',
-                controller: 'answers_controller'
+                controller: 'edit_controller'
             })
             .state('edit_question', {
                 url: "/edit_question/:question_id",
                 templateUrl: 'module/config/questions/form.html',
-                controller: 'edit_questions_controller'
+                controller: 'edit_controller'
+            })
+            .state('edit_answer', {
+                url: "/edit_answer/:answer_id",
+                templateUrl: 'module/config/answers/form.html',
+                controller: 'edit_controller'
             })
             .state('create_question', {
                 url: "/create_question",
                 templateUrl: 'module/config/questions/form.html',
-                controller: 'create_questions_controller'
+                controller: 'create_controller'
+            })
+            .state('create_answer', {
+                url: "/create_answer",
+                templateUrl: 'module/config/answers/form.html',
+                controller: 'create_controller'
             });
 
     $urlRouterProvider.otherwise('/');
@@ -39,76 +49,126 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
 // APP CONTROLLERS
 
-app.controller('create_questions_controller', function(question_service, $stateParams, $state, $scope) {
-    
+app.controller('create_controller', function (db_service, $state, $scope) {
+
     $scope.mode = "create";
-    
-    $scope.question_data = question_service;
-    $scope.question_data.current_item = null;
-    
+
+    $scope.db_data = db_service;
+    $scope.db_data.current_question = null;
+    $scope.db_data.current_answer = null;
+
     $scope.create_question = function () {
-        $scope.question_data.create_items($scope.question_data.current_item);
-        $scope.question_data.load_items();
-        $scope.question_data.current_item = null;
+        $scope.db_data.create_questions($scope.db_data.current_question);
+        $scope.db_data.load_questions();
+        $scope.db_data.current_question = null;
         $state.go('questions');
+    };
+    
+    $scope.create_answer = function () {
+        $scope.db_data.create_answers($scope.db_data.current_answer);
+        $scope.db_data.load_answers();
+        $scope.db_data.current_answer = null;
+        $state.go('answers');
     };
 });
 
-app.controller('edit_questions_controller', function (question_service, $stateParams, $state, $scope) {
+app.controller('edit_controller', function (db_service, $stateParams, $state, $scope) {
 
     $scope.mode = "edit";
 
-    $scope.question_data = question_service;
-    $scope.question_data.load_items();
-    $scope.question_data.current_item = $scope.question_data.get_item($stateParams.question_id);
+    $scope.db_data = db_service;
+    $scope.db_data.load_questions();
+    $scope.db_data.load_answers();
+    $scope.db_data.current_question = $scope.db_data.get_question($stateParams.question_id);
+    $scope.db_data.current_answer = $scope.db_data.get_answer($stateParams.answer_id);
 
     $scope.update_question = function () {
-        $scope.question_data.update_items();
+        $scope.db_data.update_questions();
         $state.go('questions');
     };
     
+    $scope.update_answer = function () {
+        $scope.db_data.update_answers();
+        $state.go('answers');
+    };
+
     $scope.delete_question = function () {
-        $scope.question_data.delete_items();
-        $scope.question_data.load_items();
+        $scope.db_data.delete_questions();
+        $scope.db_data.load_questions();
         $state.go('questions');
+    };
+    
+    $scope.delete_answer = function () {
+        $scope.db_data.delete_answers();
+        $scope.db_data.load_answers();
+        $state.go('answers');
     };
 });
 
 // APP SERVICES
 
-app.service('question_service', function (question_resource) {
+app.service('db_service', function (db_resource) {
     var self = {
-        'list': [],
-        'current_item': null,
-        'get_item': function (id) {
+        'questions_list': [],
+        'answers_list': [],
+        'current_question': null,
+        'current_answer': null,
+        'get_question': function (id) {
             console.log(id);
-            for (var i = 0; i < self.list.length; i++) {
-                var obj = self.list[i];
+            for (var i = 0; i < self.questions_list.length; i++) {
+                var obj = self.questions_list[i];
                 if (obj.id == id) {
                     return obj;
                 }
             }
         },
-        'load_items': function () {
-            question_resource.get(function (response) {
+        'get_answer': function (id) {
+            console.log(id);
+            for (var i = 0; i < self.answers_list.length; i++) {
+                var obj = self.answers_list[i];
+                if (obj.id == id) {
+                    return obj;
+                }
+            }
+        },
+        'load_questions': function () {
+            db_resource.questions.get(function (response) {
                 angular.forEach(response.results, function (item) {
                     console.log(item);
-                    self.list.push(new question_resource(item));
+                    self.questions_list.push(new db_resource.questions(item));
                 });
             });
         },
-        'update_items': function () {
-            self.current_item.$update();
+        'load_answers': function () {
+            db_resource.answers.get(function (response) {
+                angular.forEach(response.results, function (item) {
+                    console.log(item);
+                    self.answers_list.push(new db_resource.answers(item));
+                });
+            });
         },
-        'create_items': function (question) {
-            question_resource.save(question);
+        'update_questions': function () {
+            self.current_question.$update();
         },
-        'delete_items': function () {
-            self.current_item.$remove();
+        'update_answers': function () {
+            self.current_answer.$update();
+        },
+        'create_questions': function (item) {
+            db_resource.questions.save(item);
+        },
+        'create_answers': function (item) {
+            db_resource.answers.save(item);
+        },
+        'delete_questions': function () {
+            self.current_question.$remove();
+        },
+        'delete_answers': function () {
+            self.current_answer.$remove();
         }
     };
     return self;
 });
+
 
 // APP FACTORIES
 
@@ -121,21 +181,19 @@ app.factory('q_a_resource', function ($resource) {
     });
 });
 
-
-app.factory('question_resource', function ($resource) {
-    return $resource("http://localhost/backend/public/questions/:id", {id: "@id"},
-    {
-        update: {
-            method: "PUT"
-        }
-    });
-});
-
-app.factory('answer_resource', function ($resource) {
-    return $resource("http://localhost/backend/public/answers/:id", {id: "@id"},
-    {
-        update: {
-            method: "PUT"
-        }
-    });
+app.factory('db_resource', function ($resource) {
+    return {
+        questions: $resource("http://localhost/backend/public/questions/:id", {id: "@id"},
+        {
+            update: {
+                method: "PUT"
+            }
+        }),
+        answers: $resource("http://localhost/backend/public/answers/:id", {id: "@id"},
+        {
+            update: {
+                method: "PUT"
+            }
+        })
+    };
 });

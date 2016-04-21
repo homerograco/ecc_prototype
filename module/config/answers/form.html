@@ -8,7 +8,7 @@
                    class="form-control" 
                    id="id" 
                    ng-if="mode == 'edit'"
-                   ng-model="db_data.current_question.id">
+                   ng-model="db_data.current_answer.id">
 
             <input type="text" 
                    class="form-control" 
@@ -19,56 +19,48 @@
         </div>
 
         <div class="form-group">
-            <label for="code">Question code</label>
+            <label for="code">Answer code</label>
             <input type="text" 
                    class="form-control" 
                    id="code" 
-                   ng-model="db_data.current_question.code">
+                   ng-model="db_data.current_answer.code">
         </div>
 
         <div class="form-group">
-            <label for="question">Question text</label>
+            <label for="next">Nest question code</label>
             <input type="text" 
                    class="form-control" 
-                   id="question" 
-                   ng-model="db_data.current_question.question">
+                   id="next" 
+                   ng-model="db_data.current_answer.next">
         </div>
 
         <div class="form-group">
-            <label for="help">Helper text</label>
+            <label for="answer">Answer text</label>
             <input type="text" 
                    class="form-control" 
-                   id="help" 
-                   ng-model="db_data.current_question.help">
-        </div>
-
-        <div class="form-group">
-            <label for="comment">Comment</label>
-            <input type="text" 
-                   class="form-control" 
-                   id="comment" 
-                   ng-model="db_data.current_question.comment">
+                   id="answer" 
+                   ng-model="db_data.current_answer.answer">
         </div>
 
         <div class="btn-group btn-group-justified" role="group">
             <div class="btn-group" role="group" ng-if="mode == 'edit'">
                 <button class="btn btn-sucess"
                         type="submit"
-                        ng-click="update_question()" >
+                        ng-click="update_answer()" >
                     Save
                 </button >
             </div>
             <div class="btn-group" role="group" ng-if="mode == 'create'">
                 <button class="btn btn-success"
                         type="submit"
-                        ng-click="create_question()" >
+                        ng-click="create_answer()" >
                     Create
                 </button >
             </div>
             <div class="btn-group" role="group" ng-if="mode == 'edit'">
                 <button class="btn btn-danger"
                         type="submit"
-                        ng-click="delete_question()" >
+                        ng-click="delete_answer()" >
                     Delete
                 </button >
             </div>
