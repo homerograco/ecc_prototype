@@ -8,7 +8,15 @@
             <input type="text" 
                    class="form-control" 
                    id="id" 
+                   ng-if="mode == 'edit'"
                    ng-model="question_data.current_item.id">
+
+            <input type="text" 
+                   class="form-control" 
+                   id="id" 
+                   ng-if="mode == 'create'"
+                   placeholder="An ID will be created automatically"
+                   disabled>
         </div>
 
         <div class="form-group">
@@ -43,10 +51,29 @@
                    ng-model="question_data.current_item.comment">
         </div>
 
-        <button class="btn btn-sucess btn-group-justified"
-                type="submit"
-                ng-click="update_question()" >Save
-        </button >
+        <div class="btn-group btn-group-justified" role="group">
+            <div class="btn-group" role="group" ng-if="mode == 'edit'">
+                <button class="btn btn-sucess"
+                        type="submit"
+                        ng-click="update_question()" >
+                    Save
+                </button >
+            </div>
+            <div class="btn-group" role="group" ng-if="mode == 'create'">
+                <button class="btn btn-success"
+                        type="submit"
+                        ng-click="create_question()" >
+                    Create
+                </button >
+            </div>
+            <div class="btn-group" role="group" ng-if="mode == 'edit'">
+                <button class="btn btn-danger"
+                        type="submit"
+                        ng-click="delete_question()" >
+                    Delete
+                </button >
+            </div>
+        </div>
     </form>
 </div>
 
