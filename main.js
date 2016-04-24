@@ -11,7 +11,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             .state('classificator', {
                 url: "/",
                 templateUrl: 'module/classificator/classificator.html',
-                controller: 'whatever_else_questions_controller'
+                controller: 'classificator_controller'
             })
             .state('questions', {
                 url: "/questions",
@@ -105,6 +105,11 @@ app.controller('edit_controller', function (db_service, $stateParams, $state, $s
     };
 });
 
+app.controller('classificator_controller', function (classificator_service, $scope) {
+    $scope.classificator_data = classificator_service;
+    $scope.classificator_data.load();
+});
+
 // APP SERVICES
 
 app.service('db_service', function (db_resource) {
@@ -169,6 +174,20 @@ app.service('db_service', function (db_resource) {
     return self;
 });
 
+app.service('classificator_service', function (classificator_resource) {
+    var self = {
+        'list': [],
+        'load': function () {
+            classificator_resource.get(function (response) {
+                angular.forEach(response.results, function (item) {
+                    console.log(item);
+                    self.list.push(new classificator_resource(item));
+                });
+            });
+        }
+    };
+    return self;
+});
 
 // APP FACTORIES
 
@@ -196,4 +215,13 @@ app.factory('db_resource', function ($resource) {
             }
         })
     };
+});
+
+app.factory('classificator_resource', function ($resource) {
+    return $resource("http://localhost/backend/public/classificator/:code", {code: "@code"},
+    {
+        update: {
+            method: "PUT"
+        }
+    });
 });
